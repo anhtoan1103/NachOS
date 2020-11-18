@@ -113,6 +113,8 @@ int System2User(int virtAddr, int len, char *buffer)
 
 void ExceptionHandler(ExceptionType which)
 {
+    int type = machine->ReadRegister(2);
+
     switch (which)
     {
     case NoException:
@@ -153,7 +155,7 @@ void ExceptionHandler(ExceptionType which)
         interrupt->Halt();
         break;
     case SyscallException:
-        switch (which)
+        switch (type)
         {
         case SC_Halt:
             DEBUG('a', "\n\t Shutdown, initiated by user program.");
@@ -200,10 +202,35 @@ void ExceptionHandler(ExceptionType which)
             delete filename;
             break;
         }
+        case SC_ReadInt: 
+        {
+            break;
+        }
+        case SC_PrintInt: 
+        {
+            break;
+        }
+         case SC_ReadChar: 
+        {
+            break;
+        }
+        case SC_PrintChar: 
+        {
+            break;
+        }
+         case SC_ReadString: 
+        {
+            break;
+        }
+        case SC_PrintString: 
+        {
+            break;
+        }
         default:
-            printf("\n\t Unexpected user mode exception (%d)", which);
+            printf("\n\t Unexpected user mode exception (%d %d)", which, type);
             interrupt->Halt();
         }
 	IncreaseProgramCounter();
     }
 }
+
